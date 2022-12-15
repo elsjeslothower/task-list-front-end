@@ -20,7 +20,7 @@ const App = () => {
     <div className="App">
       <header className="App-header">
         {/* mental note to come back to this */}
-        <h1>Ada&apos;s Task List</h1> 
+        <h1>Ada&apos;s Task List</h1>
       </header>
       <main>
         <div>{<TaskList tasks={TASKS} />}</div>
