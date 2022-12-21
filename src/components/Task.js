@@ -2,15 +2,21 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import './Task.css';
 
-const Task = (props) => {
-  const buttonClass = props.isComplete ? 'tasks__item__toggle--completed' : '';
+const Task = ({
+  id,
+  title,
+  isComplete,
+  onToggleComplete,
+  onDeleteTask,
+}) => {
+  const buttonClass = isComplete ? 'tasks__item__toggle--completed' : '';
 
   const handleTaskClicked = () => {
-    props.onToggleComplete(props.id);
+    onToggleComplete(id);
   };
 
   const handleDetetedTask = () => {
-    props.onDeleteTask(props.id);
+    onDeleteTask(id);
   };
 
   return (
@@ -19,7 +25,7 @@ const Task = (props) => {
         className={`tasks__item__toggle ${buttonClass}`}
         onClick={handleTaskClicked}
       >
-        {props.title}
+        {title}
       </button>
       <button 
       className="tasks__item__remove button"

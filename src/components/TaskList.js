@@ -18,7 +18,11 @@ const TaskList = ({ tasks, onToggleComplete, onDeleteTask }) => {
       );
     });
   };
-  return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks)}</ul>;
+  if (!tasks.length) {
+    return <div>Well done! You have completed all tasks.</div>;
+  } else {
+    return <ul className="tasks__list no-bullet">{getTaskListJSX(tasks)}</ul>;
+  }
 };
 
 TaskList.propTypes = {
