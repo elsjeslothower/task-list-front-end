@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import TaskList from './components/TaskList.js';
+import NewTaskForm from './components/NewTaskForm.js';
 import './App.css';
 import axios from 'axios';
 
@@ -45,6 +46,23 @@ const deleteTaskAsync = async (id) => {
   }
 };
 
+// addTaskAsync here
+const addTaskAsync = async (taskData) => {
+  const { title, isComplete } = taskData;
+
+  const description = 'From Front End';
+  const completedAt = isComplete ? new Date() : null;
+
+  const body = { title, description, 'completed_at': completedAt };
+  
+  try {
+    const response = await axios.post(`${localHost}/tasks`, body);
+    return taskApiToJson(response.data.task);
+  } catch (error) {
+    console.log(`there was an error in addTaskAsync (50): ${error.error}`);
+    throw new Error(`could not add/compile task ${taskData} correctly`);
+  }
+};
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -99,6 +117,15 @@ const App = () => {
     }
   };
 
+  const addTask = async (taskData) => {
+    try {
+      const task = await addTaskAsync(taskData);
+      setTasks(previousTasks => [...previousTasks, task]);
+    } catch (error) {
+      console.log(`there was an error in addTask (120): ${error.error}`);
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -111,6 +138,9 @@ const App = () => {
             onToggleComplete={updateTask}
             onDeleteTask={deleteTask}
           />
+        </div>
+        <div>
+          <NewTaskForm onAddTask={addTask} />
         </div>
       </main>
     </div>
